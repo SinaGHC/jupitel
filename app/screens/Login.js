@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Pressable,
-  Image,
-} from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
+import colors from "../config/colors";
+import Input from "../components/Input"; 
+import Button from "../components/Button"; 
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -26,32 +22,31 @@ const Login = ({ navigation }) => {
       <View style={styles.sContainer}>
         <Text style={styles.headerText}>Welcome</Text>
         <View style={styles.form}>
-          <TextInput
-            style={styles.input}
+          <Input
             placeholder="Email"
-            placeholderTextColor="#999"
-            keyboardType="email-address"
             value={email}
-            onChangeText={(text) => setEmail(text)}
-          />
-          <TextInput
+            onChangeText={setEmail}
+            keyboardType="email-address"
             style={styles.input}
-            placeholder="Password"
-            placeholderTextColor="#999"
-            secureTextEntry
-            value={password}
-            onChangeText={(text) => setPassword(text)}
           />
-          <Pressable style={styles.loginButton} onPress={handleLogin}>
-            <Text style={styles.loginButtonText}>Login</Text>
-          </Pressable>
-
-          <Pressable
-            style={styles.signUpButton}
+          <Input
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            style={styles.input}
+          />
+          <Button
+            title="Login"
+            onPress={handleLogin}
+            style={styles.loginButton}
+          />
+          <Text
             onPress={() => navigation.navigate("Signup")}
+            style={styles.signUpText}
           >
-            <Text style={styles.signUpText}>Have an account? Login</Text>
-          </Pressable>
+            Have an account? Signup
+          </Text>
         </View>
       </View>
     </View>
@@ -63,11 +58,11 @@ export default Login;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: colors.BLACK,
   },
   sContainer: {
     flex: 1,
-    backgroundColor: "#DBCAAB",
+    backgroundColor: colors.primary,
     borderTopRightRadius: 50,
     borderTopLeftRadius: 50,
     padding: 20,
@@ -77,10 +72,8 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   input: {
-    backgroundColor: "#E0DFD3",
-    padding: 15,
-    borderRadius: 10,
     marginBottom: 10,
+    backgroundColor: "#E0DFD3",
   },
   headerText: {
     alignSelf: "center",
@@ -90,16 +83,7 @@ const styles = StyleSheet.create({
     marginTop: 70,
   },
   loginButton: {
-    backgroundColor: "#D65651",
-    paddingVertical: 15,
-    borderRadius: 10,
-    alignItems: "center",
     marginTop: 20,
-  },
-  loginButtonText: {
-    color: "#FFF",
-    fontWeight: "600",
-    fontSize: 18,
   },
   image: {
     width: 200,
@@ -107,13 +91,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 60,
   },
-  signUpButton: {
-    alignItems: "center",
-  },
   signUpText: {
-    color: "grey",
-    fontWeight: "600",
-    fontSize: 16,
+    alignSelf: "center",
+    marginTop: 10,
     textDecorationLine: "underline",
   },
 });

@@ -1,23 +1,33 @@
 import React, { useState } from "react";
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { StyleSheet, Text, View, TextInput, Pressable, StatusBar, ScrollView, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import Input from "../components/Input";
+import Button from "../components/Button";
+import colors from "../config/colors";
 
-const Login = ({ navigation }) => {
-  const [name, setName] = useState(""); 
-  const [description, setDescription] = useState(""); 
+const CreatePost = ({ navigation }) => {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
-  const [picture, setPicture] = useState(""); 
-  const [tagInput, setTagInput] = useState(""); 
+  const [picture, setPicture] = useState("");
+  const [tagInput, setTagInput] = useState("");
 
   const addTag = () => {
     if (tagInput.trim() !== "" && !tags.includes(tagInput.trim())) {
-      setTags([...tags, tagInput.trim()]);  // chera
-      setTagInput(""); 
+      setTags([...tags, tagInput.trim()]);
+      setTagInput("");
     }
   };
 
   const removeTag = (tagToRemove) => {
-    setTags(tags.filter(tag => tag !== tagToRemove));
+    setTags(tags.filter((tag) => tag !== tagToRemove));
   };
 
   return (
@@ -27,46 +37,36 @@ const Login = ({ navigation }) => {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Text style={styles.headerText}>Create Space</Text>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Name"
-          placeholderTextColor="#888"
-          value={name}
-          onChangeText={setName} 
-        />
+        <Input placeholder="Name" value={name} onChangeText={setName} />
 
-        <TextInput
-          style={[styles.input, styles.textArea]}
+        <Input
           placeholder="Description"
-          placeholderTextColor="#888"
-          multiline
-          numberOfLines={4} 
           value={description}
-          onChangeText={setDescription} 
+          onChangeText={setDescription}
+          multiline={true}
+          numberOfLines={4}
         />
 
-        <TextInput
-          style={styles.input}
+        <Input
           placeholder="Picture URL"
-          placeholderTextColor="#888"
           value={picture}
-          onChangeText={setPicture} 
+          onChangeText={setPicture}
         />
 
         <View style={styles.tagsContainer}>
-          <TextInput
-            style={[styles.input, styles.tagInput]}
+          <Input
             placeholder="Enter a tag"
-            placeholderTextColor="#888"
             value={tagInput}
-            onChangeText={setTagInput} 
-            onSubmitEditing={addTag} 
+            onChangeText={setTagInput}
+            onSubmitEditing={addTag}
+            style={styles.tagInput}
           />
-          <TouchableOpacity onPress={addTag} style={styles.addTagButton}>
-            <Text style={styles.addTagButtonText}>Add Tag</Text>
-          </TouchableOpacity>
+          <Button
+            title="Add Tag"
+            onPress={addTag}
+            style={styles.addTagButton}
+          />
         </View>
-
 
         <View style={styles.tagsList}>
           {tags.map((tag, index) => (
@@ -79,68 +79,45 @@ const Login = ({ navigation }) => {
           ))}
         </View>
 
-        <Pressable style={styles.createButton} onPress={() => console.log({ name, description, tags, picture })}>
-          <Text style={styles.createButtonText}>Create Space</Text>
-        </Pressable>
+        <Button
+          title="Create Space"
+          onPress={() => console.log({ name, description, tags, picture })}
+          style={styles.createButton}
+        />
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default Login;
+export default CreatePost;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#222222", 
+    backgroundColor: "#222222",
   },
   scrollContainer: {
-    paddingHorizontal: 20, 
+    paddingHorizontal: 20,
     paddingVertical: 40,
   },
   headerText: {
     alignSelf: "center",
     fontWeight: "600",
     fontSize: 30,
-    color: "#FFF",
+    color: colors.WHITE,
     marginBottom: 40,
   },
-  input: {
-    backgroundColor: "#333333", 
-    color: "#FFF", 
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 8, 
-    fontSize: 16,
-    marginBottom: 20, 
-  },
-  textArea: {
-    height: 100, 
-    textAlignVertical: 'top', 
-  },
   tagsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 10,
   },
   tagInput: {
     flex: 1,
   },
-  addTagButton: {
-    backgroundColor: "#D65651",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 8,
-    marginLeft: 10,
-    marginBottom: 21
-  },
-  addTagButtonText: {
-    color: "#FFF",
-    fontWeight: "600",
-  },
   tagsList: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     marginBottom: 20,
   },
   tag: {
@@ -150,28 +127,26 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginRight: 10,
     marginBottom: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   tagText: {
-    color: "#FFF",
+    color: colors.WHITE,
     fontSize: 16,
   },
   removeTagText: {
-    color: "#D65651",
+    color: colors.secondary,
     fontWeight: "600",
     marginLeft: 10,
   },
-  createButton: {
-    backgroundColor: "#D65651", 
-    paddingVertical: 15, 
-    borderRadius: 10, 
-    alignItems: "center", 
-    marginTop: 20, 
+  addTagButton: {
+    marginLeft: 10,
+    marginBottom: 21,
+    paddingHorizontal: 7,
+    paddingVertical: 10,
+    borderRadius: 8,
   },
-  createButtonText: {
-    color: "#FFF", 
-    fontWeight: "600",
-    fontSize: 18,
+  createButton: {
+    marginTop: 20,
   },
 });

@@ -1,13 +1,10 @@
 import React from "react";
 import { StyleSheet,  } from "react-native";
-import { NavigationContainer } from "@react-navigation/native"; // Navigation container for managing navigation state
-import TabNavigation from "./app/navigation/tabNavigation";
+import Signup from "./app/screens/Signup";
 
 export default function App() {
   return (
-    <NavigationContainer>
-     <TabNavigation/>
-    </NavigationContainer>
+    <Signup/>
   );
 }
 

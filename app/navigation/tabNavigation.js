@@ -1,11 +1,9 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"; 
-import CreatePost from "../screens/CreatePost"; 
 import Explore from "../screens/Explore"; 
 import Profile from "../screens/Profile"; 
 import { Ionicons } from '@expo/vector-icons';
+import CreatePost from "../screens/CreatePost";
 
 const Tab = createBottomTabNavigator();
 
@@ -30,7 +28,7 @@ export default function TabNavigation() {
         tabBarStyle: {
           backgroundColor: '#222222', 
         },
-        headerShown: false, // This removes the header from all screens
+        headerShown: false,
       })}
     >
       <Tab.Screen name="Explore" component={Explore} />

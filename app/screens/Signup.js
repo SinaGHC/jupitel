@@ -1,14 +1,10 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Pressable,
-  Image,
-} from "react-native";
+import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import Input from "../components/Input";
+import Button from "../components/Button";
+import colors from "../config/colors";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required("Username is required"),
@@ -27,75 +23,74 @@ const SignUp = ({ navigation }) => {
       />
       <View style={styles.sContainer}>
         <Text style={styles.headerText}>Welcome</Text>
-        <Formik
-          initialValues={{ username: "", email: "", password: "" }}
-          validationSchema={validationSchema}
-          onSubmit={(values) => {
-            console.log(values);
-          }}
-        >
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            touched,
-          }) => (
-            <View style={styles.form}>
-              <TextInput
-                style={styles.input}
-                placeholder="Username"
-                placeholderTextColor="#999"
-                onChangeText={handleChange("username")}
-                onBlur={handleBlur("username")}
-                value={values.username}
-              />
-              {touched.username && errors.username && (
-                <Text style={styles.errorText}>{errors.username}</Text>
-              )}
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <Formik
+            initialValues={{ username: "", email: "", password: "" }}
+            validationSchema={validationSchema}
+            onSubmit={(values) => {
+              console.log(values);
+            }}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              errors,
+              touched,
+            }) => (
+              <View style={styles.form}>
+                <Input
+                  placeholder="Username"
+                  onChangeText={handleChange("username")}
+                  onBlur={handleBlur("username")}
+                  value={values.username}
+                  style={styles.input}
+                />
+                {touched.username && errors.username && (
+                  <Text style={styles.errorText}>{errors.username}</Text>
+                )}
 
-              <TextInput
-                style={styles.input}
-                placeholder="Email"
-                placeholderTextColor="#999"
-                keyboardType="email-address"
-                onChangeText={handleChange("email")}
-                onBlur={handleBlur("email")}
-                value={values.email}
-              />
-              {touched.email && errors.email && (
-                <Text style={styles.errorText}>{errors.email}</Text>
-              )}
+                <Input
+                  placeholder="Email"
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                  value={values.email}
+                  keyboardType="email-address"
+                  style={styles.input}
+                />
+                {touched.email && errors.email && (
+                  <Text style={styles.errorText}>{errors.email}</Text>
+                )}
 
-              <TextInput
-                style={styles.input}
-                placeholder="Password"
-                placeholderTextColor="#999"
-                secureTextEntry
-                onChangeText={handleChange("password")}
-                onBlur={handleBlur("password")}
-                value={values.password}
-              />
-              {touched.password && errors.password && (
-                <Text style={styles.errorText}>{errors.password}</Text>
-              )}
+                <Input
+                  placeholder="Password"
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  value={values.password}
+                  secureTextEntry
+                  style={styles.input}
+                />
+                {touched.password && errors.password && (
+                  <Text style={styles.errorText}>{errors.password}</Text>
+                )}
 
-              <Pressable style={styles.loginButton} onPress={handleSubmit}>
-                <Text style={styles.loginButtonText}>Login</Text>
-              </Pressable>
+                <Button
+                  title="Sign Up"
+                  onPress={handleSubmit}
+                  style={styles.loginButton}
+                />
 
-              <Pressable
-                style={styles.signUpButton}
-                onPress={() => navigation.navigate("Signup")}
-              >
-                <Text style={styles.signUpText}>
-                  Don't have an account? Sign up
+                <Text
+                  onPress={() => navigation.navigate("Signup")}
+                  style={styles.signUpText}
+                >
+                  Have an account? Signup
                 </Text>
-              </Pressable>
-            </View>
-          )}
-        </Formik>
+              </View>
+            )}
+          </Formik>
+        </ScrollView>
       </View>
     </View>
   );
@@ -115,15 +110,17 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 50,
     padding: 20,
   },
+  scrollContainer: {
+    flexGrow: 1,
+  },
   form: {
     marginTop: 20,
-    gap: 10,
+    gap: 8,
   },
   input: {
-    backgroundColor: "#E0DFD3",
-    padding: 15,
-    borderRadius: 10,
     marginBottom: 10,
+    backgroundColor: "#E0DFD3",
+    color: colors.BLACK,
   },
   errorText: {
     color: "red",
@@ -134,20 +131,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     fontWeight: "600",
     fontSize: 30,
-    marginBottom: 40,
-    marginTop: 70,
+    marginBottom: 20,
+    marginTop: 40,
   },
   loginButton: {
-    backgroundColor: "#D65651",
-    paddingVertical: 15,
-    borderRadius: 10,
-    alignItems: "center",
     marginTop: 20,
-  },
-  loginButtonText: {
-    color: "#FFF",
-    fontWeight: "600",
-    fontSize: 18,
   },
   image: {
     width: 200,
@@ -157,11 +145,11 @@ const styles = StyleSheet.create({
   },
   signUpButton: {
     alignItems: "center",
+    marginTop: 10,
   },
   signUpText: {
-    color: "grey",
-    fontWeight: "600",
-    fontSize: 16,
+    alignSelf: "center",
+    marginTop: 10,
     textDecorationLine: "underline",
   },
 });
